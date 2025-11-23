@@ -35,6 +35,7 @@
 #include <react/renderer/componentregistry/ComponentDescriptorProviderRegistry.h>
 
 #include <NativeARModule.h>
+#include "AndroidPlatformServices.h"
 
 
 #ifdef REACT_NATIVE_APP_CODEGEN_HEADER
@@ -76,7 +77,8 @@ std::shared_ptr<TurboModule> cxxModuleProvider(
 
   // This code registers the module so that when the JS side asks for it, the app can return it
   if (name == NativeARModule::kModuleName) {
-    return std::make_shared<NativeARModule>(jsInvoker);
+    auto platformServices = std::make_unique<AndroidPlatformServices>();
+    return std::make_shared<NativeARModule>(jsInvoker, std::move(platformServices));
   }
 
 

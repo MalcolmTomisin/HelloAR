@@ -13,6 +13,7 @@ import {
   useColorScheme,
   View,
   Pressable,
+  Platform,
 } from 'react-native';
 import {
   SafeAreaProvider,
@@ -39,7 +40,7 @@ function AppContent() {
     <View style={styles.container}>
       
         <Pressable onPress={() => {
-          const res = NativeARModule.initARCore()
+          const res = NativeARModule.initARCore(Platform.OS)
           console.log('Native module response ====> ', res)
         }} style={{ height: 150, backgroundColor: 'lightblue', justifyContent: 'center', alignItems: 'center' }}/>
       
