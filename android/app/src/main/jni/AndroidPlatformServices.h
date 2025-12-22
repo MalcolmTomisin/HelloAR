@@ -8,9 +8,6 @@ class AndroidPlatformServices : public IPlatformServices {
 public:
 
     bool isGooglePlayServicesAvailable() override;
+    bool checkARCoreInstallation(JNIEnv* env, jobject context, jobject activity);
     
-
-private:
-    ArSession* ar_session_ = nullptr;
-    bool install_requested_ = false;
 };

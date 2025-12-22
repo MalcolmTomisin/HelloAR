@@ -1,6 +1,7 @@
 package com.helloar
 
 import android.app.Application
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -24,5 +25,6 @@ class MainApplication : Application(), ReactApplication {
     super.onCreate()
     loadReactNative(this)
     CurrentActivityTracker.register(this);
+    ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleListener(applicationContext))
   }
 }

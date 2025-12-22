@@ -142,6 +142,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation("androidx.lifecycle:lifecycle-process:2.10.0")
     // Add Java and native dependencies to the ARCore library.
      implementation 'com.google.ar:core:1.33.0'
      natives 'com.google.ar:core:1.33.0'
