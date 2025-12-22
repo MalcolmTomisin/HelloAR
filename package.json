@@ -11,7 +11,7 @@
   },
   "codegenConfig": {
      "name": "ARSpecs",
-     "type": "modules",
+     "type": "all",
      "jsSrcsDir": "specs",
      "android": {
        "javaPackageName": "com.helloar"

@@ -2,6 +2,8 @@ import {TurboModule, TurboModuleRegistry} from 'react-native';
 
 export interface Spec extends TurboModule {
   readonly initARCore: (rnPlatform: string) => boolean;
+  readonly isDepthModeSupported: () => boolean;
+  readonly isGeospatialModeSupported: () => boolean;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(

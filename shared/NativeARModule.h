@@ -11,6 +11,7 @@
 namespace facebook::react {
 
 class NativeARModule : public NativeARModuleCxxSpec<NativeARModule> {
+private:
     std::unique_ptr<IPlatformServices> platformServices_;
 
 public:
@@ -18,7 +19,9 @@ public:
 
   ~NativeARModule();
 
-  bool initARCore(jsi::Runtime& rt, std::string rnPlatform);
+  bool initARCore(jsi::Runtime& rt, jsi::String rnPlatform);
+  bool isDepthModeSupported(jsi::Runtime& rt);
+  bool isGeospatialModeSupported(jsi::Runtime& rt);
 
 };
 
