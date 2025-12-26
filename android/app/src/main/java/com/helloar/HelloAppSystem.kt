@@ -18,6 +18,13 @@ class HelloAppSystem { // <--- Changed from 'object' to 'class'
   external fun onPause()
   external fun onResume(context: Context, activity: Activity)
 
+  // View lifecycle coordination
+  external fun onARViewMounted()
+  external fun onARViewUnmounted()
+
+  // Explicit teardown (session is otherwise persistent)
+  external fun destroySession()
+
   external fun onSurfaceCreated(reactTag: Int, surface: Surface)
   external fun onSurfaceChanged(reactTag: Int, width: Int, height: Int)
   external fun onSurfaceDestroyed(reactTag: Int)

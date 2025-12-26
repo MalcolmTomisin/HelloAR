@@ -79,11 +79,22 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+
+        // Mark this view as active and ensure the session exists while the Activity is alive.
+        HelloAppSystem.instance.onARViewMounted()
+
+        val activity = CurrentActivityTracker.getCurrentActivity()
+        if (activity != null) {
+            HelloAppSystem.instance.onResume(context.applicationContext, activity)
+        }
     }
 
     override fun onDetachedFromWindow() {
         // Detach view resources only; session is owned globally and must persist across navigation.
         nativeView.onSurfaceDestroyed()
+
+        // Mark this view as inactive; global session pauses when no active views remain.
+        HelloAppSystem.instance.onARViewUnmounted()
         super.onDetachedFromWindow()
     }
 

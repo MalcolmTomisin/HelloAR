@@ -34,6 +34,13 @@ class ArSessionManager {
     }
   }
 
+  // Resume the session if present. Compatible with ArSession_resume.
+  void Resume() {
+    if (ar_session_ != nullptr) {
+      ArSession_resume(ar_session_);
+    }
+  }
+
   // Destroy the session if present. Compatible with ArSession_destroy.
   void Destroy() {
     if (ar_session_ != nullptr) {

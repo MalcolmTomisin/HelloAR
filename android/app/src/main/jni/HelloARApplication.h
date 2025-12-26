@@ -18,10 +18,12 @@ namespace helloar
         }
         void OnPause()
         {
+            activity_resumed_ = false;
             ArSessionManager::Instance().Pause();
         }
         void OnResume(JNIEnv *env, jobject context, jobject activity)
         {
+            activity_resumed_ = true;
             if (!ArSessionManager::Instance().IsInitialized())
             {
                 auto canProceed = platformServices_->checkARCoreInstallation(env, context, activity);
@@ -31,6 +33,41 @@ namespace helloar
                 }
                 ArSessionManager::Instance().Create(env, context);
             }
+
+            // Only run the session when there is an active AR view.
+            if (active_view_count_ > 0 && ArSessionManager::Instance().IsInitialized())
+            {
+                ArSessionManager::Instance().Resume();
+            }
+        }
+
+        void OnARViewMounted()
+        {
+            active_view_count_++;
+            if (activity_resumed_ && ArSessionManager::Instance().IsInitialized())
+            {
+                ArSessionManager::Instance().Resume();
+            }
+        }
+
+        void OnARViewUnmounted()
+        {
+            if (active_view_count_ > 0)
+            {
+                active_view_count_--;
+            }
+
+            if (active_view_count_ == 0)
+            {
+                ArSessionManager::Instance().Pause();
+            }
+        }
+
+        void DestroySession()
+        {
+            // Client-requested explicit end of session.
+            ArSessionManager::Instance().Pause();
+            ArSessionManager::Instance().Destroy();
         }
 
         void OnSurfaceCreated(JNIEnv * /*env*/, jint /*reactTag*/, jobject /*surface*/) {}
@@ -61,5 +98,7 @@ namespace helloar
 
     private:
         std::unique_ptr<AndroidPlatformServices> platformServices_;
+        int active_view_count_ = 0;
+        bool activity_resumed_ = false;
     };
 }

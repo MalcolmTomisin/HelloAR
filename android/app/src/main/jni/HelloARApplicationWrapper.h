@@ -211,6 +211,30 @@ public:
         }
     }
 
+    void onARViewMounted()
+    {
+        if (helloARApplication_)
+        {
+            helloARApplication_->OnARViewMounted();
+        }
+    }
+
+    void onARViewUnmounted()
+    {
+        if (helloARApplication_)
+        {
+            helloARApplication_->OnARViewUnmounted();
+        }
+    }
+
+    void destroySession()
+    {
+        if (helloARApplication_)
+        {
+            helloARApplication_->DestroySession();
+        }
+    }
+
     static void registerNatives()
     {
         registerHybrid({
@@ -304,6 +328,19 @@ public:
                 "setDebugShowDepthMap",
                 "(IZ)V",
                 HelloARApplicationWrapper::setDebugShowDepthMap),
+
+            makeNativeMethod(
+                "onARViewMounted",
+                "()V",
+                HelloARApplicationWrapper::onARViewMounted),
+            makeNativeMethod(
+                "onARViewUnmounted",
+                "()V",
+                HelloARApplicationWrapper::onARViewUnmounted),
+            makeNativeMethod(
+                "destroySession",
+                "()V",
+                HelloARApplicationWrapper::destroySession),
         });
     }
 };

@@ -1,16 +1,36 @@
 package com.helloar
 
 import com.facebook.react.common.MapBuilder
+import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
 
 class ARViewManager : SimpleViewManager<ARView>() {
 
+  private companion object {
+    private const val COMMAND_DESTROY_SESSION = 1
+  }
+
   override fun getName(): String = "ARView"
 
   override fun createViewInstance(reactContext: ThemedReactContext): ARView {
     return ARView(reactContext)
+  }
+
+  override fun getCommandsMap(): MutableMap<String, Int> {
+    return MapBuilder.of(
+      "destroySession",
+      COMMAND_DESTROY_SESSION,
+    )
+  }
+
+  override fun receiveCommand(root: ARView, commandId: Int, args: ReadableArray?) {
+    when (commandId) {
+      COMMAND_DESTROY_SESSION -> {
+        HelloAppSystem.instance.destroySession()
+      }
+    }
   }
 
   @ReactProp(name = "paused")
