@@ -37,6 +37,7 @@
 #include <NativeARModule.h>
 #include "AndroidPlatformServices.h"
 #include "HelloARApplicationWrapper.h"
+#include "ARViewNativeWrapper.h"
 
 
 #ifdef REACT_NATIVE_APP_CODEGEN_HEADER
@@ -135,5 +136,6 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void*) {
         registerComponentDescriptorsFromEntryPoint =
             &facebook::react::registerComponents;
     HelloARApplicationWrapper::registerNatives();
+    helloar::ARViewNativeWrapper::registerNatives();
   });
 }
