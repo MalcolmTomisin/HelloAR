@@ -25,7 +25,7 @@ namespace helloar
         void OnResume(JNIEnv *env, jobject context, jobject activity)
         {
             activity_resumed_ = true;
-            if (!ArSessionManager::Instance().IsInitialized())
+            if (!ArSessionManager::Instance().IsInitialized() && active_view_count_ > 0)
             {
                 auto canProceed = platformServices_->checkARCoreInstallation(env, context, activity);
                 if (!canProceed)
@@ -34,13 +34,17 @@ namespace helloar
                 }
                 LOGI("Creating AR Session");
                 ArSessionManager::Instance().Create(env, context);
+                return;
             }
 
             // Only run the session when there is an active AR view.
             if (active_view_count_ > 0 && ArSessionManager::Instance().IsInitialized())
             {
                 ArSessionManager::Instance().Resume();
+                return;
             }
+
+            LOGI("AR Session not started: no active AR views.");
         }
 
         void OnARViewMounted()
