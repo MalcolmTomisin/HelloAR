@@ -4,6 +4,7 @@
 #include <string>
 #include "ARSessionManager.h"
 #include "AndroidPlatformServices.h"
+#include "utils.h"
 
 namespace helloar
 {
@@ -31,6 +32,7 @@ namespace helloar
                 {
                     return;
                 }
+                LOGI("Creating AR Session");
                 ArSessionManager::Instance().Create(env, context);
             }
 

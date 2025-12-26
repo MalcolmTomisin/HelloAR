@@ -10,6 +10,9 @@ add_compile_options(-Wall)
 # Define the library name here.
 project(appmodules)
 
+# Android system libraries
+find_library(LOG_LIB log)
+
 # This file includes all the necessary to let you build your React Native application
 include(${REACT_ANDROID_DIR}/cmake-utils/ReactNative-application.cmake)
 
@@ -34,4 +37,5 @@ set_target_properties( glm PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${GLM_INCLUD
 target_link_libraries(${CMAKE_PROJECT_NAME}
         arcore
         glm
+        ${LOG_LIB}
 )
