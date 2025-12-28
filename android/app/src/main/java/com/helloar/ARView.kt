@@ -31,6 +31,8 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
         preserveEGLContextOnPause = true
     }
 
+    private var rendererSet: Boolean = false
+
     private val nativeView: ARViewNative = ARViewNative(this)
 
     private val gestureDetector: GestureDetector = GestureDetector(
@@ -62,9 +64,14 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
         )
 
         addView(glSurfaceView)
-        glSurfaceView.setRenderer(this)
 
+        // Must be configured before setRenderer and must only be called once.
         glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0)
+
+        if (!rendererSet) {
+            glSurfaceView.setRenderer(this)
+            rendererSet = true
+        }
 
         glSurfaceView.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
 
