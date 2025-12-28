@@ -22,9 +22,16 @@ namespace helloar
             activity_resumed_ = false;
             ArSessionManager::Instance().Pause();
         }
-        void OnResume(JNIEnv *env, jobject context, jobject activity)
+        void OnResume(JNIEnv *env, jobject context, jobject activity, jboolean hasCameraPermission)
         {
             activity_resumed_ = true;
+
+            if (active_view_count_ > 0 && !hasCameraPermission)
+            {
+                // Camera permission is required for ARCore. Do not create/resume the session.
+                LOGI("AR Session not started: missing camera permission.");
+                return;
+            }
             if (!ArSessionManager::Instance().IsInitialized() && active_view_count_ > 0)
             {
                 auto canProceed = platformServices_->checkARCoreInstallation(env, context, activity);

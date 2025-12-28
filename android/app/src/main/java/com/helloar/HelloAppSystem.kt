@@ -3,9 +3,12 @@ package com.helloar
 import com.facebook.jni.HybridData
 import com.facebook.soloader.SoLoader
 import androidx.annotation.Keep
+import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.view.Surface
+import androidx.core.content.ContextCompat
 
 @Keep
 class HelloAppSystem { // <--- Changed from 'object' to 'class'
@@ -16,7 +19,28 @@ class HelloAppSystem { // <--- Changed from 'object' to 'class'
 
   private external fun initHybrid(): HybridData
   external fun onPause()
-  external fun onResume(context: Context, activity: Activity)
+
+  // Native entrypoint; call via Kotlin wrapper below.
+  private external fun onResumeNative(context: Context, activity: Activity, hasCameraPermission: Boolean)
+
+  fun onResume(context: Context, activity: Activity) {
+    // Only check permission when an ARView is actually mounted, i.e. when the session
+    // could realistically be created/resumed.
+    val shouldCheckPermission = ARViewRegistry.hasActiveViews()
+    val hasCameraPermission = if (shouldCheckPermission) {
+      ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
+          PackageManager.PERMISSION_GRANTED
+    } else {
+      true
+    }
+
+    if (shouldCheckPermission && !hasCameraPermission) {
+      // Client is responsible for requesting permissions. We only report the error.
+      ARViewRegistry.emitCameraPermissionDenied()
+    }
+
+    onResumeNative(context, activity, hasCameraPermission)
+  }
 
   // View lifecycle coordination
   external fun onARViewMounted()

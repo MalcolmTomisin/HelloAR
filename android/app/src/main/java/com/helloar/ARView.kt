@@ -80,6 +80,8 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
+        ARViewRegistry.register(this)
+
         // Mark this view as active and ensure the session exists while the Activity is alive.
         HelloAppSystem.instance.onARViewMounted()
 
@@ -95,6 +97,8 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
 
         // Mark this view as inactive; global session pauses when no active views remain.
         HelloAppSystem.instance.onARViewUnmounted()
+
+        ARViewRegistry.unregister(this)
         super.onDetachedFromWindow()
     }
 

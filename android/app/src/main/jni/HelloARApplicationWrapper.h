@@ -32,13 +32,13 @@ public:
         }
     }
 
-    void onResume(facebook::jni::alias_ref<facebook::jni::JObject> context, facebook::jni::alias_ref<facebook::jni::JObject> activity)
+    void onResume(facebook::jni::alias_ref<facebook::jni::JObject> context, facebook::jni::alias_ref<facebook::jni::JObject> activity, jboolean hasCameraPermission)
     {
         if (helloARApplication_)
         {
             // Get the environment safely
             JNIEnv *env = facebook::jni::Environment::current();
-            helloARApplication_->OnResume(env, context.get(), activity.get());
+            helloARApplication_->OnResume(env, context.get(), activity.get(), hasCameraPermission);
         }
     }
 
@@ -242,7 +242,7 @@ public:
             makeNativeMethod("onPause", HelloARApplicationWrapper::onPause),
             makeNativeMethod(
                 "onResume",
-                "(Landroid/content/Context;Landroid/app/Activity;)V",
+                "(Landroid/content/Context;Landroid/app/Activity;Z)V",
                 HelloARApplicationWrapper::onResume),
             makeNativeMethod(
                 "onSurfaceCreated",
