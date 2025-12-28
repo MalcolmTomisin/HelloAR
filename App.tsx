@@ -20,6 +20,7 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import NativeARModule from './specs/NativeARModule';
+import ARView from './specs/NativeARView';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -48,6 +49,7 @@ function AppContent() {
         templateFileName="App.tsx"
         safeAreaInsets={safeAreaInsets}
       />
+      <ARView style={{ flex: 1 }} />
     </View>
   );
 }

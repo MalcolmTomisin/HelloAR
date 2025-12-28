@@ -32,7 +32,7 @@ public:
         }
     }
 
-    void onResume(facebook::jni::alias_ref<facebook::jni::JObject> context, facebook::jni::alias_ref<facebook::jni::JObject> activity, jboolean hasCameraPermission)
+    void onResumeNative(facebook::jni::alias_ref<facebook::jni::JObject> context, facebook::jni::alias_ref<facebook::jni::JObject> activity, jboolean hasCameraPermission)
     {
         if (helloARApplication_)
         {
@@ -241,9 +241,9 @@ public:
             makeNativeMethod("initHybrid", HelloARApplicationWrapper::initHybrid),
             makeNativeMethod("onPause", HelloARApplicationWrapper::onPause),
             makeNativeMethod(
-                "onResume",
+                "onResumeNative",
                 "(Landroid/content/Context;Landroid/app/Activity;Z)V",
-                HelloARApplicationWrapper::onResume),
+                HelloARApplicationWrapper::onResumeNative),
             makeNativeMethod(
                 "onSurfaceCreated",
                 "(ILandroid/view/Surface;)V",
