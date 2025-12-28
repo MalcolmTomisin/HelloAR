@@ -98,6 +98,10 @@ interface NativeCommands {
 
   destroySession: (viewRef: React.ComponentRef<typeof ARViewNativeComponent>) => void;
 
+  cameraPermissionGranted: (
+    viewRef: React.ComponentRef<typeof ARViewNativeComponent>,
+  ) => void;
+
   hitTest: (
     viewRef: React.ComponentRef<typeof ARViewNativeComponent>,
     x: CodegenTypes.Float,
@@ -113,7 +117,13 @@ interface NativeCommands {
 }
 
 export const Commands = codegenNativeCommands<NativeCommands>({
-  supportedCommands: ['takeSnapshot', 'resetSession', 'destroySession', 'hitTest'],
+  supportedCommands: [
+    'takeSnapshot',
+    'resetSession',
+    'destroySession',
+    'cameraPermissionGranted',
+    'hitTest',
+  ],
 });
 
 export default ARViewNativeComponent;

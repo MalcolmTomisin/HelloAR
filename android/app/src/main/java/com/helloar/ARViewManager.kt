@@ -10,6 +10,7 @@ class ARViewManager : SimpleViewManager<ARView>() {
 
   private companion object {
     private const val COMMAND_DESTROY_SESSION = 1
+    private const val COMMAND_CAMERA_PERMISSION_GRANTED = 2
   }
 
   override fun getName(): String = "ARView"
@@ -22,6 +23,8 @@ class ARViewManager : SimpleViewManager<ARView>() {
     return MapBuilder.of(
       "destroySession",
       COMMAND_DESTROY_SESSION,
+      "cameraPermissionGranted",
+      COMMAND_CAMERA_PERMISSION_GRANTED,
     )
   }
 
@@ -29,6 +32,11 @@ class ARViewManager : SimpleViewManager<ARView>() {
     when (commandId) {
       COMMAND_DESTROY_SESSION -> {
         HelloAppSystem.instance.destroySession()
+      }
+
+      COMMAND_CAMERA_PERMISSION_GRANTED -> {
+        val activity = CurrentActivityTracker.getCurrentActivity() ?: return
+        HelloAppSystem.instance.onResume(root.context.applicationContext, activity)
       }
     }
   }
