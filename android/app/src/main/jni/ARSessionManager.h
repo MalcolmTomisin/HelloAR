@@ -28,17 +28,19 @@ class ArSessionManager {
   }
 
   // Pause the session if present. Compatible with ArSession_pause.
-  void Pause() {
+  ArStatus Pause() {
     if (ar_session_ != nullptr) {
-      ArSession_pause(ar_session_);
+      return ArSession_pause(ar_session_);
     }
+    return nullptr;
   }
 
   // Resume the session if present. Compatible with ArSession_resume.
-  void Resume() {
+  ArStatus Resume() {
     if (ar_session_ != nullptr) {
-      ArSession_resume(ar_session_);
+      return ArSession_resume(ar_session_);
     }
+    return nullptr;
   }
 
   // Destroy the session if present. Compatible with ArSession_destroy.

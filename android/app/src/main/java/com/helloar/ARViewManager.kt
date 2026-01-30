@@ -91,6 +91,21 @@ class ARViewManager : SimpleViewManager<ARView>() {
     view.setFocusMode(mode)
   }
 
+  @ReactProp(name = "cameraFacing")
+  fun setCameraFacing(view: ARView, mode: String?) {
+    view.setCameraFacing(mode)
+  }
+
+  @ReactProp(name = "cameraTargetFps")
+  fun setCameraTargetFps(view: ARView, mode: String?) {
+    view.setCameraTargetFps(mode)
+  }
+
+  @ReactProp(name = "cameraDepthSensorUsage")
+  fun setCameraDepthSensorUsage(view: ARView, mode: String?) {
+    view.setCameraDepthSensorUsage(mode)
+  }
+
   @ReactProp(name = "debugShowPlanes")
   fun setDebugShowPlanes(view: ARView, enabled: Boolean?) {
     view.setDebugShowPlanes(enabled)

@@ -40,6 +40,11 @@ class ARViewNative(ownerView: ARView) {
   external fun setPlaneDetectionMode(planeDetectionMode: String)
   external fun setFocusMode(focusMode: String)
 
+  // Camera config (flattened)
+  external fun setCameraFacing(cameraFacing: String)
+  external fun setCameraTargetFps(cameraTargetFps: String)
+  external fun setCameraDepthSensorUsage(cameraDepthSensorUsage: String)
+
   external fun setDebugShowPlanes(enabled: Boolean)
   external fun setDebugShowPointCloud(enabled: Boolean)
   external fun setDebugShowWorldOrigin(enabled: Boolean)

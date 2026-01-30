@@ -190,6 +190,33 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
         }
     }
 
+    fun setCameraFacing(mode: String?) {
+        if (!mode.isNullOrEmpty()) {
+            val value = mode
+            glSurfaceView.queueEvent {
+                nativeView.setCameraFacing(value)
+            }
+        }
+    }
+
+    fun setCameraTargetFps(mode: String?) {
+        if (!mode.isNullOrEmpty()) {
+            val value = mode
+            glSurfaceView.queueEvent {
+                nativeView.setCameraTargetFps(value)
+            }
+        }
+    }
+
+    fun setCameraDepthSensorUsage(mode: String?) {
+        if (!mode.isNullOrEmpty()) {
+            val value = mode
+            glSurfaceView.queueEvent {
+                nativeView.setCameraDepthSensorUsage(value)
+            }
+        }
+    }
+
     fun setDebugShowPlanes(enabled: Boolean?) {
         if (enabled != null) {
             nativeView.setDebugShowPlanes(enabled)

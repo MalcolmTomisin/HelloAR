@@ -45,6 +45,16 @@ export type ARLightEstimationMode =
 export type ARPlaneDetectionMode = 'horizontal' | 'vertical' | 'both' | 'none';
 export type ARFocusMode = 'auto' | 'fixed';
 
+// --- Camera config (flattened) ---
+// Note: ARCore exposes a set of supported camera configs; native code typically selects
+// the closest match based on these preferences.
+export type ARCameraFacing = 'back' | 'front';
+export type ARCameraTargetFps = '30' | '60';
+export type ARCameraDepthSensorUsage =
+  | 'doNotUse'
+  | 'useIfAvailable'
+  | 'requireAndUse';
+
 // --- Props ---
 
 export interface NativeProps extends ViewProps {
@@ -67,6 +77,14 @@ export interface NativeProps extends ViewProps {
     'horizontal'
   >;
   focusMode?: CodegenTypes.WithDefault<ARFocusMode, 'auto'>;
+
+  // Flattened Camera Configuration
+  cameraFacing?: CodegenTypes.WithDefault<ARCameraFacing, 'back'>;
+  cameraTargetFps?: CodegenTypes.WithDefault<ARCameraTargetFps, '30'>;
+  cameraDepthSensorUsage?: CodegenTypes.WithDefault<
+    ARCameraDepthSensorUsage,
+    'useIfAvailable'
+  >;
 
   // Flattened Debug Flags
   debugShowPlanes?: boolean;
