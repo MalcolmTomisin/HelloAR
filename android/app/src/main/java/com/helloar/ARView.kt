@@ -2,6 +2,7 @@ package com.helloar
 
 import android.content.Context
 import android.opengl.GLSurfaceView
+import android.opengl.GLES20;
 import android.os.Handler
 import android.os.Looper
 import android.view.GestureDetector
@@ -113,8 +114,9 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
         gl: javax.microedition.khronos.opengles.GL10?,
         config: javax.microedition.khronos.egl.EGLConfig?,
     ) {
+        GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1.0f)
         // PASS THE SURFACE TO C++ IMMEDIATELY
-        nativeView.onSurfaceCreated(glSurfaceView.holder.surface)
+        nativeView.onSurfaceCreated()
         nativeView.onGlSurfaceCreated()
     }
 
