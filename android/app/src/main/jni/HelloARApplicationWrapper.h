@@ -2,8 +2,11 @@
 
 #include <fbjni/fbjni.h>
 #include <string>
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
 #include "HelloARApplication.h"
 #include "AndroidPlatformServices.h"
+
 
 class HelloARApplicationWrapper : public facebook::jni::HybridClass<HelloARApplicationWrapper>
 {
@@ -42,172 +45,172 @@ public:
         }
     }
 
-    void onSurfaceCreated(jint reactTag, facebook::jni::alias_ref<facebook::jni::JObject> surface)
+    void onSurfaceCreated()
     {
         if (helloARApplication_)
         {
             JNIEnv *env = facebook::jni::Environment::current();
-            helloARApplication_->OnSurfaceCreated(env, reactTag, surface.get());
+            helloARApplication_->OnSurfaceCreated(env);
         }
     }
 
-    void onSurfaceChanged(jint reactTag, jint width, jint height)
+    void onSurfaceChanged(jint width, jint height)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->OnSurfaceChanged(reactTag, width, height);
+            helloARApplication_->OnSurfaceChanged(width, height);
         }
     }
 
-    void onSurfaceDestroyed(jint reactTag)
+    void onSurfaceDestroyed()
     {
         if (helloARApplication_)
         {
-            helloARApplication_->OnSurfaceDestroyed(reactTag);
+            helloARApplication_->OnSurfaceDestroyed();
         }
     }
 
-    void onGlSurfaceCreated(jint reactTag)
+    void onGlSurfaceCreated()
     {
         if (helloARApplication_)
         {
-            helloARApplication_->OnGlSurfaceCreated(reactTag);
+            helloARApplication_->OnGlSurfaceCreated();
         }
     }
 
-    void onGlSurfaceChanged(jint reactTag, jint width, jint height)
+    void onGlSurfaceChanged(jint width, jint height)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->OnGlSurfaceChanged(reactTag, width, height);
+            helloARApplication_->OnGlSurfaceChanged(width, height);
         }
     }
 
-    void onGlDrawFrame(jint reactTag)
+    void onGlDrawFrame()
     {
         if (helloARApplication_)
         {
-            helloARApplication_->OnGlDrawFrame(reactTag);
+            helloARApplication_->OnGlDrawFrame();
         }
     }
 
-    void onGestureTap(jint reactTag, jfloat x, jfloat y)
+    void onGestureTap(jfloat x, jfloat y)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->OnGestureTap(reactTag, x, y);
+            helloARApplication_->OnGestureTap(x, y);
         }
     }
 
-    void setPaused(jint reactTag, jboolean paused)
+    void setPaused(jboolean paused)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetPaused(reactTag, paused);
+            helloARApplication_->SetPaused(paused);
         }
     }
 
-    void setPlaneDetectionEnabled(jint reactTag, jboolean enabled)
+    void setPlaneDetectionEnabled(jboolean enabled)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetPlaneDetectionEnabled(reactTag, enabled);
+            helloARApplication_->SetPlaneDetectionEnabled(enabled);
         }
     }
 
-    void setLightEstimationEnabled(jint reactTag, jboolean enabled)
+    void setLightEstimationEnabled(jboolean enabled)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetLightEstimationEnabled(reactTag, enabled);
+            helloARApplication_->SetLightEstimationEnabled(enabled);
         }
     }
 
-    void setSessionType(jint reactTag, facebook::jni::alias_ref<facebook::jni::JString> value)
+    void setSessionType(facebook::jni::alias_ref<facebook::jni::JString> value)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetSessionType(reactTag, value->toStdString());
+            helloARApplication_->SetSessionType(value->toStdString());
         }
     }
 
-    void setDepthMode(jint reactTag, facebook::jni::alias_ref<facebook::jni::JString> value)
+    void setDepthMode(facebook::jni::alias_ref<facebook::jni::JString> value)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetDepthMode(reactTag, value->toStdString());
+            helloARApplication_->SetDepthMode(value->toStdString());
         }
     }
 
-    void setCloudAnchorMode(jint reactTag, facebook::jni::alias_ref<facebook::jni::JString> value)
+    void setCloudAnchorMode(facebook::jni::alias_ref<facebook::jni::JString> value)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetCloudAnchorMode(reactTag, value->toStdString());
+            helloARApplication_->SetCloudAnchorMode(value->toStdString());
         }
     }
 
-    void setInstantPlacementMode(jint reactTag, facebook::jni::alias_ref<facebook::jni::JString> value)
+    void setInstantPlacementMode(facebook::jni::alias_ref<facebook::jni::JString> value)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetInstantPlacementMode(reactTag, value->toStdString());
+            helloARApplication_->SetInstantPlacementMode(value->toStdString());
         }
     }
 
-    void setLightEstimationMode(jint reactTag, facebook::jni::alias_ref<facebook::jni::JString> value)
+    void setLightEstimationMode(facebook::jni::alias_ref<facebook::jni::JString> value)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetLightEstimationMode(reactTag, value->toStdString());
+            helloARApplication_->SetLightEstimationMode(value->toStdString());
         }
     }
 
-    void setPlaneDetectionMode(jint reactTag, facebook::jni::alias_ref<facebook::jni::JString> value)
+    void setPlaneDetectionMode(facebook::jni::alias_ref<facebook::jni::JString> value)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetPlaneDetectionMode(reactTag, value->toStdString());
+            helloARApplication_->SetPlaneDetectionMode(value->toStdString());
         }
     }
 
-    void setFocusMode(jint reactTag, facebook::jni::alias_ref<facebook::jni::JString> value)
+    void setFocusMode(facebook::jni::alias_ref<facebook::jni::JString> value)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetFocusMode(reactTag, value->toStdString());
+            helloARApplication_->SetFocusMode(value->toStdString());
         }
     }
 
-    void setDebugShowPlanes(jint reactTag, jboolean enabled)
+    void setDebugShowPlanes(jboolean enabled)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetDebugShowPlanes(reactTag, enabled);
+            helloARApplication_->SetDebugShowPlanes(enabled);
         }
     }
 
-    void setDebugShowPointCloud(jint reactTag, jboolean enabled)
+    void setDebugShowPointCloud(jboolean enabled)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetDebugShowPointCloud(reactTag, enabled);
+            helloARApplication_->SetDebugShowPointCloud(enabled);
         }
     }
 
-    void setDebugShowWorldOrigin(jint reactTag, jboolean enabled)
+    void setDebugShowWorldOrigin(jboolean enabled)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetDebugShowWorldOrigin(reactTag, enabled);
+            helloARApplication_->SetDebugShowWorldOrigin(enabled);
         }
     }
 
-    void setDebugShowDepthMap(jint reactTag, jboolean enabled)
+    void setDebugShowDepthMap(jboolean enabled)
     {
         if (helloARApplication_)
         {
-            helloARApplication_->SetDebugShowDepthMap(reactTag, enabled);
+            helloARApplication_->SetDebugShowDepthMap(enabled);
         }
     }
 
@@ -235,6 +238,16 @@ public:
         }
     }
 
+    void setAssetManager(facebook::jni::alias_ref<facebook::jni::JObject> assetManager)
+    {
+        if (helloARApplication_)
+        {
+            JNIEnv *env = facebook::jni::Environment::current();
+            AAssetManager *nativeAssetManager = AAssetManager_fromJava(env, assetManager.get());
+            helloARApplication_->SetAssetManager(nativeAssetManager);
+        }
+    }
+
     static void registerNatives()
     {
         registerHybrid({
@@ -246,87 +259,87 @@ public:
                 HelloARApplicationWrapper::onResumeNative),
             makeNativeMethod(
                 "onSurfaceCreated",
-                "(ILandroid/view/Surface;)V",
+                "()V",
                 HelloARApplicationWrapper::onSurfaceCreated),
             makeNativeMethod(
                 "onSurfaceChanged",
-                "(III)V",
+                "(II)V",
                 HelloARApplicationWrapper::onSurfaceChanged),
             makeNativeMethod(
                 "onSurfaceDestroyed",
-                "(I)V",
+                "()V",
                 HelloARApplicationWrapper::onSurfaceDestroyed),
             makeNativeMethod(
                 "onGlSurfaceCreated",
-                "(I)V",
+                "()V",
                 HelloARApplicationWrapper::onGlSurfaceCreated),
             makeNativeMethod(
                 "onGlSurfaceChanged",
-                "(III)V",
+                "(II)V",
                 HelloARApplicationWrapper::onGlSurfaceChanged),
             makeNativeMethod(
                 "onGlDrawFrame",
-                "(I)V",
+                "()V",
                 HelloARApplicationWrapper::onGlDrawFrame),
             makeNativeMethod(
                 "onGestureTap",
-                "(IFF)V",
+                "(FF)V",
                 HelloARApplicationWrapper::onGestureTap),
             makeNativeMethod(
                 "setPaused",
-                "(IZ)V",
+                "(Z)V",
                 HelloARApplicationWrapper::setPaused),
             makeNativeMethod(
                 "setPlaneDetectionEnabled",
-                "(IZ)V",
+                "(Z)V",
                 HelloARApplicationWrapper::setPlaneDetectionEnabled),
             makeNativeMethod(
                 "setLightEstimationEnabled",
-                "(IZ)V",
+                "(Z)V",
                 HelloARApplicationWrapper::setLightEstimationEnabled),
             makeNativeMethod(
                 "setSessionType",
-                "(ILjava/lang/String;)V",
+                "(Ljava/lang/String;)V",
                 HelloARApplicationWrapper::setSessionType),
             makeNativeMethod(
                 "setDepthMode",
-                "(ILjava/lang/String;)V",
+                "(Ljava/lang/String;)V",
                 HelloARApplicationWrapper::setDepthMode),
             makeNativeMethod(
                 "setCloudAnchorMode",
-                "(ILjava/lang/String;)V",
+                "(Ljava/lang/String;)V",
                 HelloARApplicationWrapper::setCloudAnchorMode),
             makeNativeMethod(
                 "setInstantPlacementMode",
-                "(ILjava/lang/String;)V",
+                "(Ljava/lang/String;)V",
                 HelloARApplicationWrapper::setInstantPlacementMode),
             makeNativeMethod(
                 "setLightEstimationMode",
-                "(ILjava/lang/String;)V",
+                "(Ljava/lang/String;)V",
                 HelloARApplicationWrapper::setLightEstimationMode),
             makeNativeMethod(
                 "setPlaneDetectionMode",
-                "(ILjava/lang/String;)V",
+                "(Ljava/lang/String;)V",
                 HelloARApplicationWrapper::setPlaneDetectionMode),
             makeNativeMethod(
                 "setFocusMode",
-                "(ILjava/lang/String;)V",
+                "(Ljava/lang/String;)V",
                 HelloARApplicationWrapper::setFocusMode),
             makeNativeMethod(
                 "setDebugShowPlanes",
-                "(IZ)V",
+                "(Z)V",
                 HelloARApplicationWrapper::setDebugShowPlanes),
             makeNativeMethod(
                 "setDebugShowPointCloud",
-                "(IZ)V",
+                "(Z)V",
                 HelloARApplicationWrapper::setDebugShowPointCloud),
             makeNativeMethod(
                 "setDebugShowWorldOrigin",
-                "(IZ)V",
+                "(Z)V",
                 HelloARApplicationWrapper::setDebugShowWorldOrigin),
             makeNativeMethod(
                 "setDebugShowDepthMap",
-                "(IZ)V",
+                "(Z)V",
                 HelloARApplicationWrapper::setDebugShowDepthMap),
 
             makeNativeMethod(
@@ -341,6 +354,11 @@ public:
                 "destroySession",
                 "()V",
                 HelloARApplicationWrapper::destroySession),
+
+            makeNativeMethod(
+                "setAssetManager",
+                "(Landroid/content/res/AssetManager;)V",
+                HelloARApplicationWrapper::setAssetManager),
         });
     }
 };

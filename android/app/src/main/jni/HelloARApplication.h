@@ -2,9 +2,18 @@
 
 #include <memory>
 #include <string>
+#include <set>
+#include <unordered_map>
 #include "ARSessionManager.h"
 #include "AndroidPlatformServices.h"
+#include <android/asset_manager.h>
 #include "utils.h"
+#include "arcore_c_api.h"
+
+#include "BackgroundRenderer.h"
+#include "glm.h"
+#include "PlaneRenderer.h"
+#include "Texture.h"
 
 namespace helloar
 {
@@ -83,35 +92,67 @@ namespace helloar
             ArSessionManager::Instance().Destroy();
         }
 
-        void OnSurfaceCreated(JNIEnv * /*env*/, jint /*reactTag*/, jobject /*surface*/) {}
-        void OnSurfaceChanged(jint /*reactTag*/, jint /*width*/, jint /*height*/) {}
-        void OnSurfaceDestroyed(jint /*reactTag*/) {}
+        void OnSurfaceCreated(JNIEnv * /*env*/) {}
+        void OnSurfaceChanged(jint /*width*/, jint /*height*/) {}
+        void OnSurfaceDestroyed() {}
 
-        void OnGlSurfaceCreated(jint /*reactTag*/) {}
-        void OnGlSurfaceChanged(jint /*reactTag*/, jint /*width*/, jint /*height*/) {}
-        void OnGlDrawFrame(jint /*reactTag*/) {}
-        void OnGestureTap(jint /*reactTag*/, jfloat /*x*/, jfloat /*y*/) {}
+        void OnGlSurfaceCreated() {}
+        void OnGlSurfaceChanged(jint /*width*/, jint /*height*/) {}
+        void OnGlDrawFrame() {}
+        void OnGestureTap(jfloat /*x*/, jfloat /*y*/) {}
 
-        void SetPaused(jint /*reactTag*/, jboolean /*paused*/) {}
-        void SetPlaneDetectionEnabled(jint /*reactTag*/, jboolean /*enabled*/) {}
-        void SetLightEstimationEnabled(jint /*reactTag*/, jboolean /*enabled*/) {}
+        void SetPaused(jboolean /*paused*/) {}
+        void SetPlaneDetectionEnabled(jboolean /*enabled*/) {}
+        void SetLightEstimationEnabled(jboolean /*enabled*/) {}
 
-        void SetSessionType(jint /*reactTag*/, const std::string & /*sessionType*/) {}
-        void SetDepthMode(jint /*reactTag*/, const std::string & /*depthMode*/) {}
-        void SetCloudAnchorMode(jint /*reactTag*/, const std::string & /*cloudAnchorMode*/) {}
-        void SetInstantPlacementMode(jint /*reactTag*/, const std::string & /*instantPlacementMode*/) {}
-        void SetLightEstimationMode(jint /*reactTag*/, const std::string & /*lightEstimationMode*/) {}
-        void SetPlaneDetectionMode(jint /*reactTag*/, const std::string & /*planeDetectionMode*/) {}
-        void SetFocusMode(jint /*reactTag*/, const std::string & /*focusMode*/) {}
+        void SetSessionType(const std::string & /*sessionType*/) {}
+        void SetDepthMode(const std::string & /*depthMode*/) {}
+        void SetCloudAnchorMode(const std::string & /*cloudAnchorMode*/) {}
+        void SetInstantPlacementMode(const std::string & /*instantPlacementMode*/) {}
+        void SetLightEstimationMode(const std::string & /*lightEstimationMode*/) {}
+        void SetPlaneDetectionMode(const std::string & /*planeDetectionMode*/) {}
+        void SetFocusMode(const std::string & /*focusMode*/) {}
 
-        void SetDebugShowPlanes(jint /*reactTag*/, jboolean /*enabled*/) {}
-        void SetDebugShowPointCloud(jint /*reactTag*/, jboolean /*enabled*/) {}
-        void SetDebugShowWorldOrigin(jint /*reactTag*/, jboolean /*enabled*/) {}
-        void SetDebugShowDepthMap(jint /*reactTag*/, jboolean /*enabled*/) {}
+        void SetDebugShowPlanes(jboolean /*enabled*/) {}
+        void SetDebugShowPointCloud(jboolean /*enabled*/) {}
+        void SetDebugShowWorldOrigin(jboolean /*enabled*/) {}
+        void SetDebugShowDepthMap(jboolean /*enabled*/) {}
+
+        void SetAssetManager(AAssetManager *assetManager)
+        {
+            asset_manager_ = assetManager;
+        }
 
     private:
         std::unique_ptr<AndroidPlatformServices> platformServices_;
         int active_view_count_ = 0;
         bool activity_resumed_ = false;
+
+        glm::mat3 GetTextureTransformMatrix(const ArSession *session,
+                                            const ArFrame *frame);
+        ArFrame *ar_frame_ = nullptr;
+
+        bool install_requested_ = false;
+        bool calculate_uv_transform_ = false;
+        int width_ = 1;
+        int height_ = 1;
+        int display_rotation_ = 0;
+        bool is_instant_placement_enabled_ = true;
+
+        AAssetManager *const asset_manager_;
+
+        // The anchors at which we are drawing android models using given colors.
+        struct ColoredAnchor
+        {
+            ArAnchor *anchor;
+            ArTrackable *trackable;
+            float color[4];
+        };
+
+        std::vector<ColoredAnchor> anchors_;
+
+        Texture depth_texture_;
+
+        int32_t plane_count_ = 0;
     };
 }
