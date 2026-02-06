@@ -16,7 +16,7 @@ local_ref<ARViewNativeWrapper::jhybriddata> ARViewNativeWrapper::initHybrid(
   return makeCxxInstance(ownerView);
 }
 
-void ARViewNativeWrapper::onSurfaceCreated(alias_ref<JObject> /*surface*/) {
+void ARViewNativeWrapper::onSurfaceCreated() {
   // Intentionally no-op for now.
   // This is where you would attach the Surface/ANativeWindow to a renderer.
 }
@@ -188,7 +188,7 @@ void ARViewNativeWrapper::registerNatives() {
   registerHybrid({
       makeNativeMethod("initHybrid", ARViewNativeWrapper::initHybrid),
 
-      makeNativeMethod("onSurfaceCreated", "(Landroid/view/Surface;)V", ARViewNativeWrapper::onSurfaceCreated),
+  makeNativeMethod("onSurfaceCreated", "()V", ARViewNativeWrapper::onSurfaceCreated),
       makeNativeMethod("onSurfaceChanged", "(II)V", ARViewNativeWrapper::onSurfaceChanged),
       makeNativeMethod("onSurfaceDestroyed", "()V", ARViewNativeWrapper::onSurfaceDestroyed),
 

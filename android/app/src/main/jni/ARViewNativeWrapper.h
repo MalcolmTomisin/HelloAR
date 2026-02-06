@@ -14,7 +14,7 @@ class ARViewNativeWrapper : public facebook::jni::HybridClass<ARViewNativeWrappe
       facebook::jni::alias_ref<jclass> clazz,
       facebook::jni::alias_ref<facebook::jni::JObject> ownerView);
 
-  void onSurfaceCreated(facebook::jni::alias_ref<facebook::jni::JObject> surface);
+    void onSurfaceCreated();
   void onSurfaceChanged(jint width, jint height);
   void onSurfaceDestroyed();
 

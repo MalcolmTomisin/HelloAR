@@ -32,7 +32,7 @@ class ArSessionManager {
     if (ar_session_ != nullptr) {
       return ArSession_pause(ar_session_);
     }
-    return nullptr;
+    return AR_SUCCESS;
   }
 
   // Resume the session if present. Compatible with ArSession_resume.
@@ -40,7 +40,7 @@ class ArSessionManager {
     if (ar_session_ != nullptr) {
       return ArSession_resume(ar_session_);
     }
-    return nullptr;
+    return AR_SUCCESS;
   }
 
   // Destroy the session if present. Compatible with ArSession_destroy.

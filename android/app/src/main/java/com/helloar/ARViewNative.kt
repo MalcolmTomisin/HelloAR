@@ -1,6 +1,5 @@
 package com.helloar
 
-import android.view.Surface
 import androidx.annotation.Keep
 import com.facebook.jni.HybridData
 import com.facebook.soloader.SoLoader
@@ -16,7 +15,7 @@ class ARViewNative(ownerView: ARView) {
   // avoid runtime NoSuchMethodError during native registration.
   private external fun initHybrid(ownerView: Any): HybridData
 
-  external fun onSurfaceCreated(surface: Surface)
+  external fun onSurfaceCreated()
   external fun onSurfaceChanged(width: Int, height: Int)
   external fun onSurfaceDestroyed()
 

@@ -83,6 +83,8 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
             gestureDetector.onTouchEvent(event)
             true
         }
+
+        
     }
 
     override fun onAttachedToWindow() {
@@ -115,7 +117,6 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
         config: javax.microedition.khronos.egl.EGLConfig?,
     ) {
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1.0f)
-        // PASS THE SURFACE TO C++ IMMEDIATELY
         nativeView.onSurfaceCreated()
         nativeView.onGlSurfaceCreated()
     }
