@@ -31,11 +31,13 @@ class ARViewManager : SimpleViewManager<ARView>() {
   override fun receiveCommand(root: ARView, commandId: Int, args: ReadableArray?) {
     when (commandId) {
       COMMAND_DESTROY_SESSION -> {
+        HelloAppSystem.instance.ensureInitialized(root.context.applicationContext)
         HelloAppSystem.instance.destroySession()
       }
 
       COMMAND_CAMERA_PERMISSION_GRANTED -> {
         val activity = CurrentActivityTracker.getCurrentActivity() ?: return
+        HelloAppSystem.instance.ensureInitialized(root.context.applicationContext)
         HelloAppSystem.instance.onResume(root.context.applicationContext, activity)
       }
     }

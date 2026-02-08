@@ -8,7 +8,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.AssetManager
-import android.view.Surface
 import androidx.core.content.ContextCompat
 
 
@@ -17,15 +16,36 @@ class HelloAppSystem { // <--- Changed from 'object' to 'class'
 
   // This is now a standard instance field, which JNI can find easily.
   @Keep
-  private val mHybridData: HybridData = initHybrid()
+  private var mHybridData: HybridData? = null
 
-  private external fun initHybrid(): HybridData
-  external fun onPause()
+  private external fun initHybrid(assetManager: AssetManager): HybridData
+
+  private external fun onPauseNative()
+
+  fun ensureInitialized(context: Context) {
+    if (mHybridData != null) {
+      return
+    }
+
+    synchronized(this) {
+      if (mHybridData == null) {
+        mHybridData = initHybrid(context.applicationContext.assets)
+      }
+    }
+  }
+
+  fun onPause() {
+    if (mHybridData != null) {
+      onPauseNative()
+    }
+  }
 
   // Native entrypoint; call via Kotlin wrapper below.
   private external fun onResumeNative(context: Context, activity: Activity, hasCameraPermission: Boolean)
 
   fun onResume(context: Context, activity: Activity) {
+    ensureInitialized(context)
+
     // Only check permission when an ARView is actually mounted, i.e. when the session
     // could realistically be created/resumed.
     val shouldCheckPermission = ARViewRegistry.hasActiveViews()
@@ -43,8 +63,6 @@ class HelloAppSystem { // <--- Changed from 'object' to 'class'
 
     onResumeNative(context, activity, hasCameraPermission)
   }
-
-  external fun setAssetManager(assetManager: AssetManager)
 
   // View lifecycle coordination
   external fun onARViewMounted()

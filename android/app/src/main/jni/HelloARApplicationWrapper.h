@@ -15,19 +15,24 @@ public:
 
     std::shared_ptr<helloar::HelloARApplication> helloARApplication_;
 
-    HelloARApplicationWrapper()
+    explicit HelloARApplicationWrapper(AAssetManager *assetManager)
     {
         auto platformServices = std::make_unique<AndroidPlatformServices>();
-        helloARApplication_ = std::make_shared<helloar::HelloARApplication>(std::move(platformServices));
+        helloARApplication_ = std::make_shared<helloar::HelloARApplication>(
+            std::move(platformServices),
+            assetManager);
     }
 
     static facebook::jni::local_ref<jhybriddata> initHybrid(
-        facebook::jni::alias_ref<jclass> /* clazz */)
+        facebook::jni::alias_ref<jclass> /* clazz */,
+        facebook::jni::alias_ref<facebook::jni::JObject> assetManager)
     {
-        return makeCxxInstance();
+        JNIEnv *env = facebook::jni::Environment::current();
+        AAssetManager *nativeAssetManager = AAssetManager_fromJava(env, assetManager.get());
+        return makeCxxInstance(nativeAssetManager);
     }
 
-    void onPause()
+    void onPauseNative()
     {
         if (helloARApplication_)
         {
@@ -238,21 +243,14 @@ public:
         }
     }
 
-    void setAssetManager(facebook::jni::alias_ref<facebook::jni::JObject> assetManager)
-    {
-        if (helloARApplication_)
-        {
-            JNIEnv *env = facebook::jni::Environment::current();
-            AAssetManager *nativeAssetManager = AAssetManager_fromJava(env, assetManager.get());
-            helloARApplication_->SetAssetManager(nativeAssetManager);
-        }
-    }
-
     static void registerNatives()
     {
         registerHybrid({
-            makeNativeMethod("initHybrid", HelloARApplicationWrapper::initHybrid),
-            makeNativeMethod("onPause", HelloARApplicationWrapper::onPause),
+            makeNativeMethod(
+                "initHybrid",
+                "(Landroid/content/res/AssetManager;)Lcom/facebook/jni/HybridData;",
+                HelloARApplicationWrapper::initHybrid),
+            makeNativeMethod("onPauseNative", HelloARApplicationWrapper::onPauseNative),
             makeNativeMethod(
                 "onResumeNative",
                 "(Landroid/content/Context;Landroid/app/Activity;Z)V",
@@ -354,11 +352,6 @@ public:
                 "destroySession",
                 "()V",
                 HelloARApplicationWrapper::destroySession),
-
-            makeNativeMethod(
-                "setAssetManager",
-                "(Landroid/content/res/AssetManager;)V",
-                HelloARApplicationWrapper::setAssetManager),
         });
     }
 };

@@ -20,6 +20,7 @@ class AppLifecycleListener(
         super.onResume(owner)
 
         val activity = CurrentActivityTracker.getCurrentActivity() ?: return
+        HelloAppSystem.instance.ensureInitialized(appContext.applicationContext)
         HelloAppSystem.instance.onResume(appContext, activity)
     }
 

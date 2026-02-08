@@ -5,6 +5,7 @@
 #pragma once
 
 #include <jni.h>
+#include <fbjni/fbjni.h>
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
@@ -15,6 +16,7 @@
 #include <cstdlib>
 #include <cstdint>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "arcore_c_api.h"
@@ -154,6 +156,8 @@ namespace helloar
     float CalculateDistanceToPlane(const ArSession &ar_session,
                                    const ArPose &plane_pose,
                                    const ArPose &camera_pose);
+
+    jclass FindClass(const char *classname);
 
   }
 }

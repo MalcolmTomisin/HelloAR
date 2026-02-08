@@ -20,8 +20,9 @@ namespace helloar
     class HelloARApplication
     {
     public:
-        HelloARApplication(std::unique_ptr<AndroidPlatformServices> platformServices)
-            : platformServices_(std::move(platformServices)) {}
+        HelloARApplication(std::unique_ptr<AndroidPlatformServices> platformServices,
+                           AAssetManager *assetManager)
+            : platformServices_(std::move(platformServices)), asset_manager_(assetManager) {}
         ~HelloARApplication()
         {
             ArSessionManager::Instance().Destroy();
@@ -117,11 +118,6 @@ namespace helloar
         void SetDebugShowPointCloud(jboolean /*enabled*/) {}
         void SetDebugShowWorldOrigin(jboolean /*enabled*/) {}
         void SetDebugShowDepthMap(jboolean /*enabled*/) {}
-
-        void SetAssetManager(AAssetManager *assetManager)
-        {
-            asset_manager_ = assetManager;
-        }
 
     private:
         std::unique_ptr<AndroidPlatformServices> platformServices_;

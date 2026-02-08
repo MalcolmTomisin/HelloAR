@@ -92,6 +92,8 @@ class ARView(context: Context) : FrameLayout(context), GLSurfaceView.Renderer {
 
         ARViewRegistry.register(this)
 
+        HelloAppSystem.instance.ensureInitialized(context.applicationContext)
+
         // Mark this view as active and ensure the session exists while the Activity is alive.
         HelloAppSystem.instance.onARViewMounted()
 
